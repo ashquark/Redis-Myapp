@@ -1,0 +1,35 @@
+<!-- login.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <script>
+    function validateEmail() {
+      var emailInput = document.getElementById("email");
+      var emailValue = emailInput.value;
+      var emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      
+      if (!emailValue.match(emailFormat)) {
+        alert("Invalid email format. Please enter a valid email address.");
+        return false;
+      }
+      
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <h1>Login</h1>
+  
+  <form action="/adminLogin" method="POST" onsubmit="return validateEmail()">
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email" required><br><br>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+    
+    <button type="submit">Login</button>
+  </form>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Location Details</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.6.1/font/bootstrap-icons.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      z-index: 2;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 0;
+      height: 60px;
+      display: flex;
+      align-items: center;
+    }
+
+    .content {
+      margin-top: 100px;
+      padding: 20px;
+    }
+
+    .location-image {
+      max-width: 200px;
+      height: auto;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .location-details {
+      margin-top: 20px;
+    }
+
+    .location-details h2 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .location-details p {
+      font-size: 16px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .table {
+      width: 100%;
+    }
+
+    .table th,
+    .table td {
+      padding: 8px;
+      border: none;
+      text-align: center;
+    }
+
+    .table-heading {
+      font-weight: bold;
+    }
+
+    .table ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      text-align: center;
+    }
+
+    .table ul li {
+      margin-bottom: 5px;
+    }
+
+    .mySearchBar{
+      position: absolute;
+      margin-left: 40%;
+      width : 20%;
+    }
+
+    .rating-container {
+      display: flex;
+      justify-content: center;
+    }
+
+    .rating-stars {
+      color: #ccc;
+      cursor: pointer;
+    }
+
+    .rating-stars:hover,
+    .rating-stars:hover ~ .rating-stars {
+      color: #f8c10f;
+    }
+    
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/userDashboard">myApp</a>
+      <form class="d-flex mySearchBar">
+        <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+      <div class="navbar-text">
+        <ul class="navbar-nav d-flex flex-row gap-3">
+          <li class="nav-item">
+            <a class="nav-link" href="/userRatings">My Ratings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/updateUserDetails"><%= userDetails.firstname %></a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-danger" href="/userLogout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="content">
+      <div class="row">
+        <div class="col-md-6">
+          <table class="table">
+            <tr>
+              <td colspan="2">
+                <img class="location-image" src="/data/<%= location.category %>.jpg" alt="Location Image">
+              </td>
+            </tr>
+            <tr>
+              <td class="table-heading">Name</td>
+              <td><%= location.name.charAt(0).toUpperCase() + location.name.slice(1) %></td>
+            </tr>
+            <tr>
+              <td class="table-heading">Category</td>
+              <td><%= location.category.charAt(0).toUpperCase() + location.category.slice(1) %></td>
+            </tr>
+            <tr>
+              <td class="table-heading">Location</td>
+              <td><%= location.location.charAt(0).toUpperCase() + location.location.slice(1) %></td>
+            </tr>
+            <tr>
+              <td class="table-heading">Description</td>
+              <td><%= locationDetails.description %></td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <table class="table">
+            <tr>
+              <td class="table-heading">Hours</td>
+              <td>
+                <ul>
+                  <% locationDetails.hours.forEach((hour) => { %>
+                    <li><%= hour.day %>: <%= hour.hours %></li>
+                  <% }); %>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-heading">Social Media</td>
+              <td>
+                <ul>
+                  <% locationDetails.socials.forEach((social) => { %>
+                    <% const platform = Object.keys(social)[0]; %>
+                    <% const handle = social[platform]; %>
+                    <li><%= platform %>: <%= handle %></li>
+                  <% }); %>
+                </ul>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rating-container">
+    <div class="rating-stars">
+      <i class="bi bi-star text-warning"></i>
+      <i class="bi bi-star text-warning"></i>
+      <i class="bi bi-star text-warning"></i>
+      <i class="bi bi-star text-warning"></i>
+      <i class="bi bi-star text-warning"></i>
+    </div>
+  </div>
+  <script>
+    $(document).ready(function() {
+        console.log(1);
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

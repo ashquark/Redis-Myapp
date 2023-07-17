@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+    }
+
+    .container {
+      padding: 100px 30px 80px 30px;
+      margin-left: 20%;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      bottom: 0;
+      width: 20%;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .sidebar li {
+      margin-bottom: 10px;
+    }
+
+    .sidebar a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    .myclass{
+      width:80%;
+    }
+
+    .myclass2{
+      width:80%;
+      padding: 20px 30px 80px 30px;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #f8f9fa;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .table {
+      width: 100%;
+    }
+
+    .table th, .table td {
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">myApp</a>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+      <a class="btn btn-danger" href="/adminLogout">Logout</a>
+    </div>
+  </nav>
+
+  <div class="sidebar">
+    <h2>Manage Locations</h2>
+    <ul>
+      <li><a href="/addLocation">Add New Location</a></li>
+      <li>
+        <a data-bs-toggle="collapse" href="#collapseExample1" role="button" aria-expanded="false" aria-controls="collapseExample1">Update Location  ></a>
+        <div class="collapse" id="collapseExample1">
+          <input type="text" class="form-control mt-2" id="updateLocationIdInput" placeholder="Enter ID">
+          <button class="btn btn-primary mt-2" type="submit">Search</button>
+        </div>
+      </li>
+      <li>
+        <a data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">Delete Location  ></a>
+        <div class="collapse" id="collapseExample2">
+          <input type="text" class="form-control mt-2" id="deleteLocationIdInput" placeholder="Enter ID">
+          <button class="btn btn-primary mt-2" type="submit">Search</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="container myclass">
+    <h1>Welcome to the Admin Dashboard</h1>
+  </div>
+
+  <div class="container myclass2">
+    <h3>Location List</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Location</th>
+          <th>Average Rating</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    Developed by Ashutosh Sharma
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Fetch the location list data
+    fetch('/locationList')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        // Handle the location list data here
+        var searchResults = data.searchResults;
+        renderLocationList(searchResults);
+      })
+      .catch(function(error) {
+        // Handle the fetch error here
+        console.log(error);
+      });
+  
+    // Render the location list
+    function renderLocationList(searchResults) {
+      var locationListTable = document.querySelector('.table tbody');
+      locationListTable.innerHTML = '';
+  
+      searchResults.forEach(function(location) {
+        var row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${location.id}</td>
+          <td>${capitalizeFirstLetter(location.name)}</td>
+          <td>${capitalizeFirstLetter(location.category)}</td>
+          <td>${capitalizeFirstLetter(location.location)}</td>
+          <td>${(location.numStars / location.numRating).toFixed(2)}</td>
+          <td>
+            <a href="/updateLocation/${location.id}" class="btn btn-primary">Update</a>
+            <button class="btn btn-danger deleteButton" type="submit" data-location-id="${location.id}">Delete</button>
+          </td>
+        `;
+  
+        locationListTable.appendChild(row);
+      });
+  
+      // Attach event listeners to the delete buttons
+      var deleteButtons = document.querySelectorAll('.deleteButton');
+      deleteButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+          var locationId = this.getAttribute('data-location-id');
+          fetch('/deleteLocation/' + locationId, {
+            method: 'DELETE'
+          })
+            .then(function(response) {
+              if (response.ok) {
+                // Handle the success response here
+                console.log('Deletion successful');
+                // Reload the location list after successful deletion
+                fetch('/locationList')
+                  .then(function(response) {
+                    return response.json();
+                  })
+                  .then(function(data) {
+                    var updatedSearchResults = data.searchResults;
+                    renderLocationList(updatedSearchResults);
+                  })
+                  .catch(function(error) {
+                    console.log(error);
+                  });
+              } else {
+                // Handle the error response here
+                console.log('Deletion failed');
+              }
+            })
+            .catch(function(error) {
+              // Handle the fetch error here
+              console.log(error);
+            });
+        });
+      });
+    }
+  
+    // Capitalize the first letter of a string
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+  </script>
+  
+</body>
+</html>

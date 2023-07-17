@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      z-index: 2;
+      position: fixed;
+      padding-top: 0;
+      width:100%;
+      padding-bottom: 0;
+      margin-bottom: 0;
+      height: 60px;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      bottom: 0;
+      width: 20%;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    .container {
+      padding: 100px 30px 80px 30px;
+      margin-left: 20%;
+    }
+
+    .card {
+      margin-bottom: 20px;
+    }
+
+    .card-img-top {
+      height: 200px;
+      object-fit: contain;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .card-text {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .rating {
+      color: #f8c10f;
+      font-size: 18px;
+    }
+    
+    .myclass {
+      width: 80%;
+    }
+
+    .mySearchBar{
+      position: absolute;
+      margin-left: 40%;
+      width : 20%;
+    }
+
+    .mylink{
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/userDashboard">myApp</a>
+      <form class="d-flex mySearchBar">
+        <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+      <div class="navbar-text">
+        <ul class="navbar-nav d-flex flex-row gap-3">
+          <li class="nav-item">
+            <a class="nav-link" href="/userRatings">My Ratings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/updateUserDetails"><%= userDetails.firstname %></a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-danger" href="/userLogout">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="sidebar">
+    <h2>Search</h2>
+    <form action="/userDashboard" method="GET"> <!-- Updated form attributes -->
+      <div class="mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input type="text" class="form-control" id="name" name="name">
+      </div>
+      <div class="mb-3">
+        <label for="category" class="form-label">Category:</label>
+        <select class="form-select" id="category" name="category">
+          <option value="">All Categories</option>
+          <!-- Add the available category options here -->
+          <% for(const category of categoryList){ %>
+          <option value="category1"><%= category.charAt(0).toUpperCase() + category.slice(1) %></option>
+          <% } %>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="place" class="form-label">Location:</label>
+        <input type="text" class="form-control" id="place" name="place">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Stars:</label>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="stars" id="stars1" value="1">
+          <label class="form-check-label" for="stars1">
+            Above 1
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="stars" id="stars2" value="2">
+          <label class="form-check-label" for="stars2">
+            Above 2
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="stars" id="stars3" value="3">
+          <label class="form-check-label" for="stars3">
+            Above 3
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="stars" id="stars4" value="4">
+          <label class="form-check-label" for="stars4">
+            Above 4
+          </label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+  </div>
+
+
+  <div class="container myclass">
+    <% if(displaySearch == false){ %>
+        <h1>Welcome to myApp! <%= userDetails.firstname+' '+userDetails.lastname %></h1>
+        <h2>Locations</h2>
+        <div class="row">
+        <% searchResults.forEach((location) => { %>
+            <div class="col-sm-6 col-md-4 col-lg-3">
+            <a href="/location/<%= location.id %>" class="mylink">
+            <div class="card">
+                <img class="card-img-top" src="/data/<%= location.category %>.jpg" alt="Location Image">
+                <div class="card-body">
+                <h5 class="card-title"><%= location.name.charAt(0).toUpperCase() + location.name.slice(1) %></h5>
+                <p class="card-text"><strong>Category:</strong> <%= location.category.charAt(0).toUpperCase() + location.category.slice(1) %></p>
+                <p class="card-text"><strong>Location:</strong> <%= location.location.charAt(0).toUpperCase() + location.location.slice(1) %></p>
+                <p class="card-text">
+                    <strong>Rating:</strong>
+                </p><span class="rating"><%= (location.numStars / location.numRating).toFixed(1) %></span>
+                </div>
+            </div>
+            </a>
+            </div>  
+        <% }) %>
+        </div>
+    <% }else{ %>
+        <h1>Displaying search results for your query : </h1>
+        <h2>Found <%= searchResults.length %> results.</h2>
+        <div class="row">
+            <% searchResults.forEach((location) => { %>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card">
+                    <img class="card-img-top" src="/data/<%= location.category %>.jpg" alt="Location Image">
+                    <div class="card-body">
+                    <h5 class="card-title"><%= location.name.charAt(0).toUpperCase() + location.name.slice(1) %></h5>
+                    <p class="card-text"><strong>Category:</strong> <%= location.category.charAt(0).toUpperCase() + location.category.slice(1) %></p>
+                    <p class="card-text"><strong>Location:</strong> <%= location.location.charAt(0).toUpperCase() + location.location.slice(1) %></p>
+                    <p class="card-text">
+                        <strong>Rating:</strong>
+                    </p><span class="rating"><%= (location.numStars / location.numRating).toFixed(1) %></span>
+                    </div>
+                </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

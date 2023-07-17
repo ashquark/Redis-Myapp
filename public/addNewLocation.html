@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard - Add New Location</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 10px;
+    }
+
+    .container {
+      padding: 20px;
+      margin-top: 60px;
+    }
+
+    .form-label {
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">myApp</a>
+          <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+          <a class="btn btn-danger" href="/adminLogout">Logout</a>
+        </div>
+      </nav>
+
+  <div class="container">
+    <h1>Add New Location</h1>
+
+    <form action="/addLocation" method="POST">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="category" class="form-label">Category:</label>
+        <input type="text" class="form-control" id="category" name="category" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="location" class="form-label">Location:</label>
+        <input type="text" class="form-control" id="location" name="location" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="numStars" class="form-label">Number of Stars:</label>
+        <input type="number" class="form-control" id="numStars" name="numStars" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="numRating" class="form-label">Number of Ratings:</label>
+        <input type="number" class="form-control" id="numRating" name="numRating" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="hrmon" class="form-label">Hours - Monday:</label>
+        <input type="text" class="form-control" id="hrmon" name="hrmon">
+      </div>
+
+      <div class="mb-3">
+        <label for="hrtue" class="form-label">Hours - Tuesday:</label>
+        <input type="text" class="form-control" id="hrtue" name="hrtue">
+      </div>
+
+      <div class="mb-3">
+        <label for="hrwed" class="form-label">Hours - Wednesday:</label>
+        <input type="text" class="form-control" id="hrwed" name="hrwed">
+      </div>
+
+      <div class="mb-3">
+        <label for="hrthu" class="form-label">Hours - Thursday:</label>
+        <input type="text" class="form-control" id="hrthu" name="hrthu">
+      </div>
+
+      <div class="mb-3">
+        <label for="hrfri" class="form-label">Hours - Friday:</label>
+        <input type="text" class="form-control" id="hrfri" name="hrfri">
+      </div>
+
+      <div class="mb-3">
+        <label for="hrsat" class="form-label">Hours - Saturday:</label>
+        <input type="text" class="form-control" id="hrsat" name="hrsat">
+      </div>
+
+      <div class="mb-3">
+        <label for="hrsun" class="form-label">Hours - Sunday:</label>
+        <input type="text" class="form-control" id="hrsun" name="hrsun">
+      </div>
+
+      <div class="mb-3">
+        <label for="instagram" class="form-label">Instagram:</label>
+        <input type="text" class="form-control" id="instagram" name="instagram">
+      </div>
+
+      <div class="mb-3">
+        <label for="facebook" class="form-label">Facebook:</label>
+        <input type="text" class="form-control" id="facebook" name="facebook">
+      </div>
+
+      <div class="mb-3">
+        <label for="twitter" class="form-label">Twitter:</label>
+        <input type="text" class="form-control" id="twitter" name="twitter">
+      </div>
+
+      <div class="mb-3">
+        <label for="website" class="form-label">Website:</label>
+        <input type="text" class="form-control" id="website" name="website">
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description:</label>
+        <textarea class="form-control" id="description" name="description"></textarea>
+      </div>
+
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone:</label>
+        <input type="text" class="form-control" id="phone" name="phone">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Add Location</button>
+    </form>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

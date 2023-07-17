@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login and Signup</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <style>
+    body {
+      background: linear-gradient(to right, #667eea, #764ba2);
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      margin-top: 50px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-content {
+      margin-top: 20px;
+    }
+
+    .form-label {
+      font-weight: bold;
+    }
+
+    .btn-submit {
+      width: 100%;
+    }
+  </style>
+  <script>
+    function validateEmail() {
+      var emailInput = document.getElementById("email");
+      var emailValue = emailInput.value;
+      var emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+      if (!emailValue.match(emailFormat)) {
+        alert("Invalid email format. Please enter a valid email address.");
+        return false;
+      }
+
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <ul class="nav nav-pills mb-3" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">Login</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="signup-tab" data-bs-toggle="pill" data-bs-target="#signup" type="button" role="tab" aria-controls="signup" aria-selected="false">Signup</button>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+        <h1 class="text-center mb-4">Login</h1>
+
+        <form action="/userLogin" method="POST" onsubmit="return validateEmail()">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="text" id="email" name="email" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-submit">Login</button>
+        </form>
+
+        <div class="text-center mt-3">
+          <p>Don't have an account? <a href="#signup" class="text-decoration-none" data-bs-toggle="pill" role="tab" aria-controls="signup" aria-selected="false">Signup here</a>.</p>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
+        <h1 class="text-center mb-4">Signup</h1>
+
+        <form action="/userSignup" method="POST" onsubmit="return validateEmail()">
+          <div class="mb-3">
+            <label for="firstName" class="form-label">First Name:</label>
+            <input type="text" id="firstName" name="firstName" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-submit">Signup</button>
+        </form>
+
+        <div class="text-center mt-3">
+          <p>Already have an account? <a href="#login" class="text-decoration-none" data-bs-toggle="pill" role="tab" aria-controls="login" aria-selected="true">Login here</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

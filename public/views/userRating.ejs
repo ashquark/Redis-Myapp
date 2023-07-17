@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update User Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            z-index: 2;
+            position: fixed;
+            padding-top: 0;
+            width:100%;
+            padding-bottom: 0;
+            margin-bottom: 0;
+            height: 60px;
+            display: flex;
+            align-items: center;
+        }
+        .container {
+            padding: 100px 30px 80px 30px;
+        }
+        .mySearchBar{
+          position: absolute;
+          margin-left: 40%;
+          width : 20%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/userDashboard">myApp</a>
+          <form class="d-flex mySearchBar">
+            <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+          <div class="navbar-text">
+            <ul class="navbar-nav d-flex flex-row gap-3">
+              <li class="nav-item">
+                <a class="nav-link" href="/updateUserDetails"><%= userDetails.firstname %></a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-danger" href="/userLogout">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <div class="container">
+      <h1><%= userDetails.firstname %>'s Ratings</h1>
+      <div class="row">
+          <% for (let i = 0; i < userRatings.length; i++) { %>
+              <% const rating = userRatings[i]; %>
+              <% const locationName = rating.locationName.charAt(0).toUpperCase() + rating.locationName.slice(1); %>
+              <% const locationCategory = rating.locationCategory.charAt(0).toUpperCase() + rating.locationCategory.slice(1); %>
+              <% const locationLocation = rating.locationLocation.charAt(0).toUpperCase() + rating.locationLocation.slice(1); %>
+              <% const userRating = rating.rating; %>
+              <div class="col-md-3">
+                  <div class="card">
+                      <img class="card-img-top" src="" alt="Location Image">
+                      <div class="card-body">
+                          <h5 class="card-title"><%= locationName %></h5>
+                          <p class="card-text"><strong>Category:</strong> <%= locationCategory %></p>
+                          <p class="card-text"><strong>Location:</strong> <%= locationLocation %></p>
+                          <p class="card-text"><strong>User Rating:</strong> <%= userRating %></p>
+                      </div>
+                  </div>
+              </div>
+              <% if ((i + 1) % 4 === 0) { %>
+                  </div>
+                  <div class="row">
+              <% } %>
+          <% } %>
+      </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
